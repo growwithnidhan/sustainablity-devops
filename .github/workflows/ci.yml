@@ -23,7 +23,17 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+      
+    - name: Lint with flake8
+      run: |
+        flake8 .
+
 
     - name: Run tests
       run: |
         pytest
+
+    - name: Build Docker image
+      run: |
+        docker build -t sustainability-app .
+
