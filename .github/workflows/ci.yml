@@ -39,3 +39,9 @@ jobs:
         context: .
         push: true
         tags: nidhan7/sustainability-app:latest
+
+        
+    - name: Carbon Check (Pre-Build)
+      run: |
+        python carbon_check.py
+
