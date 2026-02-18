@@ -40,8 +40,13 @@ jobs:
         push: true
         tags: nidhan7/sustainability-app:latest
 
-        
+
     - name: Carbon Check (Pre-Build)
       run: |
         python carbon_check.py
+
+    - name: Smart Test Execution
+      run: |
+        python green_trigger.py
+
 
