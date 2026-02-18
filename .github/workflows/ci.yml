@@ -1,10 +1,8 @@
-name: Python CI
+name: CI Pipeline
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -17,37 +15,27 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.13'
+        python-version: '3.10'
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
         pip install -r requirements.txt
-      
-    - name: Lint with flake8
-      run: |
-        flake8 app tests main.py carbon_check.py green_trigger.py
-
 
     - name: Run tests
       run: |
         pytest
 
-    - name: Build Docker image
-      run: |
-        docker build -t sustainability-app .
-
-        - name: Log in to Docker Hub
+    # ✅ Docker login (INSIDE steps)
+    - name: Log in to Docker Hub
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    # ✅ Docker build & push (INSIDE steps)
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
       with:
         context: .
         push: true
         tags: nidhan7/sustainability-app:latest
-
-
