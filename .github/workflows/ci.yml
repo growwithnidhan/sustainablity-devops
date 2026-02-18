@@ -26,7 +26,7 @@ jobs:
       
     - name: Lint with flake8
       run: |
-        flake8 .
+        flake8 app tests main.py carbon_check.py green_trigger.py
 
 
     - name: Run tests
