@@ -1,14 +1,12 @@
-# carbon_check.py
-import random
-import sys
+import requests
 
-# simulate carbon intensity (0 = clean, 100 = very dirty)
-carbon_intensity = random.randint(0, 100)
-print(f"Current carbon intensity: {carbon_intensity}")
+def get_carbon_intensity():
+    url = "https://api.carbonintensity.org.uk/intensity"
+    response = requests.get(url)
+    data = response.json()
+    return data["data"][0]["intensity"]["actual"]
 
-# if high, stop the build
-if carbon_intensity > 70:
-    print("High carbon intensity detected! Pausing build.")
-    sys.exit(1)
-else:
-    print("Carbon intensity is acceptable. Proceeding with build.")
+
+def is_carbon_high(threshold=70):
+    intensity = get_carbon_intensity()
+    return intensity > threshold
